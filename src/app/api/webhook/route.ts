@@ -1,0 +1,94 @@
+import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
+import { supabase } from '@/lib/supabase';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+  apiVersion: '2026-01-28.clover',
+});
+
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
+
+export async function POST(req: NextRequest) {
+  const body = await req.text();
+  const sig = req.headers.get('stripe-signature');
+
+  if (!sig) {
+    return NextResponse.json({ error: 'No signature' }, { status: 400 });
+  }
+
+  let event: Stripe.Event;
+
+  try {
+    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err);
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session;
+    const meta = session.metadata || {};
+
+    const orderData = {
+      search_id: meta.search_id,
+      stripe_session_id: session.id,
+      stripe_payment_id: session.payment_intent as string,
+      customer_email: meta.customer_email || session.customer_email,
+      tier: meta.tier,
+      selected_items: JSON.parse(meta.selected_items || '[]'),
+      preferred_email: meta.preferred_email || null,
+      email_type: meta.email_type || null,
+      intake_notes: meta.intake_notes || null,
+      amount_cents: session.amount_total,
+      status: 'paid',
+      webhook_sent: false,
+    };
+
+    // Insert order into Supabase
+    const { data: order, error: dbError } = await supabase
+      .from('orders')
+      .insert(orderData)
+      .select('id')
+      .single();
+
+    if (dbError) {
+      console.error('Order insert error:', dbError);
+    }
+
+    // Fire Make.com webhook
+    const makeWebhookUrl = process.env.MAKE_WEBHOOK_URL;
+    if (makeWebhookUrl && order) {
+      try {
+        await fetch(makeWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'new_order',
+            order_id: order.id,
+            timestamp: new Date().toISOString(),
+            customer: {
+              email: orderData.customer_email,
+              preferred_email: orderData.preferred_email,
+              email_type: orderData.email_type,
+            },
+            tier: orderData.tier,
+            amount_cents: orderData.amount_cents,
+            selected_items: orderData.selected_items,
+            intake_notes: orderData.intake_notes,
+            search_url: `https://handlehunter.ai/results/${meta.search_id}`,
+          }),
+        });
+
+        // Update webhook_sent status
+        await supabase
+          .from('orders')
+          .update({ webhook_sent: true, webhook_sent_at: new Date().toISOString() })
+          .eq('id', order.id);
+      } catch (webhookErr) {
+        console.error('Make.com webhook error:', webhookErr);
+      }
+    }
+  }
+
+  return NextResponse.json({ received: true });
+}
