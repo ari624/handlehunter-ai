@@ -19,10 +19,10 @@ function SuccessContent() {
         </div>
 
         <h1 className="font-display text-3xl font-bold text-ink mb-3 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-          You&apos;re All Set!
+          Locked in.
         </h1>
         <p className="text-grey-500 mb-8 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-          Your order has been received. Our concierge team is on it.
+          Payment received. Our team is already working on your handles.
         </p>
 
         {/* What happens next */}
@@ -34,8 +34,8 @@ function SuccessContent() {
                 <Mail className="w-4 h-4 text-violet" />
               </div>
               <div>
-                <p className="text-sm font-medium text-ink">Confirmation email sent</p>
-                <p className="text-xs text-grey-400">Check your inbox for order details and a receipt.</p>
+                <p className="text-sm font-medium text-ink">Receipt in your inbox</p>
+                <p className="text-xs text-grey-400">Order details and payment confirmation — check your email.</p>
               </div>
             </div>
             <div className="flex gap-3">
@@ -43,8 +43,8 @@ function SuccessContent() {
                 <Clock className="w-4 h-4 text-violet" />
               </div>
               <div>
-                <p className="text-sm font-medium text-ink">Team assigned within 2 hours</p>
-                <p className="text-xs text-grey-400">A dedicated specialist will review your selections.</p>
+                <p className="text-sm font-medium text-ink">Specialist assigned within 2 hours</p>
+                <p className="text-xs text-grey-400">A real person reviewing your handles right now.</p>
               </div>
             </div>
             <div className="flex gap-3">
@@ -52,8 +52,8 @@ function SuccessContent() {
                 <Sparkles className="w-4 h-4 text-violet" />
               </div>
               <div>
-                <p className="text-sm font-medium text-ink">Handles secured in 24–72 hours</p>
-                <p className="text-xs text-grey-400">We&apos;ll email you as each domain and handle is claimed.</p>
+                <p className="text-sm font-medium text-ink">Handles live within 24–72 hours</p>
+                <p className="text-xs text-grey-400">You&apos;ll get an email each time a domain or handle is secured.</p>
               </div>
             </div>
           </div>

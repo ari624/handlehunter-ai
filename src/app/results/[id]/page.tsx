@@ -394,17 +394,17 @@ export default function ResultsPage() {
       {
         key: 'audit',
         icon: <CheckCircle2 className="w-6 h-6" />,
-        features: ['Full search report', 'Availability analysis', 'Recommendations PDF', 'No execution'],
+        features: ['Full search report', 'Availability map', 'Strategy recommendations PDF', 'Report only \u2014 no execution'],
       },
       {
         key: 'concierge',
         icon: <Sparkles className="w-6 h-6" />,
-        features: ['Everything in Audit', 'We register available domains', 'We claim social handles', 'Profile setup (bios, headers, links)'],
+        features: ['Everything in Audit', 'We register every available domain', 'We claim every social handle', 'Profiles set up with bios, headers, links'],
       },
       {
         key: 'premium',
         icon: <Lock className="w-6 h-6" />,
-        features: ['Everything in Concierge', 'Premium domain negotiation', 'Handle acquisition outreach', 'Priority 48hr turnaround'],
+        features: ['Everything in Concierge', 'We negotiate with domain owners', 'Handle acquisition outreach', 'Priority 48-hour turnaround'],
       },
     ];
 
@@ -414,8 +414,8 @@ export default function ResultsPage() {
           <button onClick={() => setStep('email')} className="text-grey-400 hover:text-ink text-sm flex items-center gap-1 mb-6">
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
-          <h2 className="font-display text-2xl font-bold text-ink mb-2">Choose Your Package</h2>
-          <p className="text-grey-500 mb-8">Select the service level that fits your needs.</p>
+          <h2 className="font-display text-2xl font-bold text-ink mb-2">Pick your level</h2>
+          <p className="text-grey-500 mb-8">Report only, full done-for-you, or premium acquisition.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {tiers.map((t) => (

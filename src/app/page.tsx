@@ -29,10 +29,10 @@ const PRICING = [
     price: 97,
     popular: false,
     features: [
-      "Full availability report",
-      "Recommendations for your brand",
-      "Priority handle suggestions",
-      "Delivered as PDF within 24 hours",
+      "Every domain and handle, checked and mapped",
+      "Which handles to claim first (and why)",
+      "Alternative names if your first choice is taken",
+      "PDF report delivered within 24 hours",
     ],
   },
   {
@@ -42,9 +42,9 @@ const PRICING = [
     popular: true,
     features: [
       "Everything in Audit & Map",
-      "We secure all available domains",
-      "We set up social profiles with bios, headers, and links",
-      "Completed within 5 business days",
+      "We register every available domain for you",
+      "Profiles created with your bio, photo, and header — ready to post",
+      "Done within 5 business days",
     ],
   },
   {
@@ -54,33 +54,33 @@ const PRICING = [
     popular: false,
     features: [
       "Everything in Full Concierge",
-      "We negotiate on taken premium domains",
-      "Custom acquisition strategy",
-      "Dedicated account manager",
+      "Taken domains? We negotiate with the owner",
+      "Custom outreach to handle squatters",
+      "One person. Your person. Until it\u2019s done.",
     ],
   },
 ];
 
 const FAQ_ITEMS = [
   {
-    q: "How long does the concierge service take?",
-    a: "Most orders are completed within 5 business days. Premium acquisitions may take longer depending on negotiations.",
+    q: "How fast do you actually secure handles?",
+    a: "Most orders ship within 5 business days. Premium domain acquisitions can take longer \u2014 we\u2019re negotiating with real humans, not bots.",
   },
   {
-    q: "What if a domain I want is already taken?",
-    a: "Our Premium Acquisition tier includes negotiation services. We\u2019ll research the owner, assess fair market value, and handle the entire acquisition process.",
+    q: "What if the domain I want is already taken?",
+    a: "That\u2019s exactly what Premium Acquisition is for. We track down the owner, assess fair market value, and run the negotiation so you don\u2019t have to.",
   },
   {
-    q: "Do you actually set up my social profiles?",
-    a: "Yes! With the Full Concierge and Premium tiers, we create your profiles with consistent bios, profile photos, header images, and links across all selected platforms.",
+    q: "Do you actually set up my profiles, or just claim the handles?",
+    a: "We set them up. Bios, profile photos, header images, links \u2014 consistent across every platform. You log in and it\u2019s ready to go.",
   },
   {
-    q: "What email do you use for registrations?",
-    a: "You choose! Use your existing business email or create a dedicated Gmail. We never store passwords \u2014 you share access securely after payment.",
+    q: "Which email gets used for registrations?",
+    a: "Your call. Use your existing business email or we\u2019ll create a fresh Gmail for your brand. We never store passwords \u2014 you share access securely after payment.",
   },
   {
-    q: "Can I just get the report without the service?",
-    a: "Absolutely. Our Audit & Map tier gives you a complete availability report with strategic recommendations, delivered as a PDF within 24 hours.",
+    q: "Can I just get the report without the done-for-you service?",
+    a: "Yes. The Audit & Map tier is a full availability report with strategic recommendations, delivered as a PDF within 24 hours. No execution, just the intel.",
   },
 ];
 
@@ -179,7 +179,7 @@ export default function Home() {
         <div className="relative z-10 max-w-3xl mx-auto text-center text-white">
           {/* Badge */}
           <div className="inline-block bg-white/[0.06] border border-white/[0.08] rounded-full px-5 py-1.5 text-[11px] font-medium uppercase tracking-[1.5px] mb-8 backdrop-blur-sm animate-fade-up opacity-0">
-            Your Brand, Everywhere
+            Brand Handle Concierge
           </div>
 
           {/* Headline */}
@@ -187,9 +187,9 @@ export default function Home() {
             className="font-display font-bold text-[clamp(40px,6vw,72px)] leading-[1.02] tracking-[-3px] mb-6 animate-fade-up opacity-0"
             style={{ animationDelay: "0.1s" }}
           >
-            Claim Your Name
+            You own the brand.
             <br />
-            Across the Internet
+            Do you own the handles?
           </h1>
 
           {/* Subtitle */}
@@ -197,8 +197,8 @@ export default function Home() {
             className="text-[17px] font-light opacity-45 max-w-[520px] mx-auto leading-relaxed mb-10 animate-fade-up"
             style={{ animationDelay: "0.2s" }}
           >
-            Search domains and social handles in one place. Mark what you own.
-            Let us secure the rest.
+            One search checks every domain and social handle. Mark what&apos;s
+            yours. We&apos;ll secure what&apos;s not.
           </p>
 
           {/* Search Input */}
@@ -282,9 +282,9 @@ export default function Home() {
             How It Works
           </div>
           <h2 className="font-display font-bold text-[clamp(32px,4vw,48px)] tracking-[-2px] leading-tight">
-            From search to secured
+            From &ldquo;is it taken?&rdquo;
             <br />
-            in 3 steps
+            to &ldquo;it&apos;s all mine&rdquo;
           </h2>
         </div>
 
@@ -293,17 +293,17 @@ export default function Home() {
             {
               icon: Search,
               title: "Search Everything",
-              desc: "Enter your brand name and instantly see which domains and social handles are available across every platform that matters.",
+              desc: "Type your brand name. See every .com, .ai, .io, and social handle \u2014 checked in seconds, not hours.",
             },
             {
               icon: CheckCircle,
               title: "Mark & Select",
-              desc: "Mark what you already own. Select what you want us to secure. We\u2019ll show you exactly what\u2019s available.",
+              desc: "Already own the .com? Mark it. Want the TikTok handle? Select it. Your dashboard, your decisions.",
             },
             {
               icon: Rocket,
               title: "We Handle It",
-              desc: "Choose your package and our team goes to work \u2014 registering domains, claiming handles, and setting up your profiles.",
+              desc: "Pick a package. Our team registers domains, claims handles, and sets up profiles. You don\u2019t lift a finger.",
             },
           ].map((step, i) => (
             <div
@@ -333,10 +333,10 @@ export default function Home() {
             Pricing
           </div>
           <h2 className="font-display font-bold text-[clamp(32px,4vw,48px)] tracking-[-2px] leading-tight">
-            Choose Your Package
+            Three ways to lock it down
           </h2>
           <p className="text-base text-grey-400 mt-3 max-w-md mx-auto">
-            One-time payment. No subscriptions. No hidden fees.
+            One payment. No subscriptions. No surprises.
           </p>
         </div>
 
@@ -408,7 +408,7 @@ export default function Home() {
             FAQ
           </div>
           <h2 className="font-display font-bold text-[clamp(32px,4vw,48px)] tracking-[-2px] leading-tight">
-            Questions? We&apos;ve got answers.
+            You&apos;re probably wondering
           </h2>
         </div>
 
