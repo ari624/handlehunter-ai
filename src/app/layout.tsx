@@ -21,9 +21,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HandleHunter.ai — Claim Your Brand Name Everywhere",
+  title: "HandleHunter.ai — You own the brand. Do you own the handles?",
   description:
-    "Search domains and social handles in one place. Mark what you own. Let our concierge team secure the rest.",
+    "One search checks every domain and social handle. Mark what's yours. Our concierge team secures what's not.",
 };
 
 export default function RootLayout({
