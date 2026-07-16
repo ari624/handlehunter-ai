@@ -97,11 +97,17 @@ Deno.serve(async (request) => {
       return response({ error: "Invalid order payload" }, 400);
     }
 
+    const rawSearchId = typeof payload.search_id === "string" ? payload.search_id : "";
+    const searchId = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+      .test(rawSearchId)
+      ? rawSearchId
+      : null;
+
     const { data, error } = await admin
       .from("orders")
       .upsert(
         {
-          search_id: typeof payload.search_id === "string" ? payload.search_id : null,
+          search_id: searchId,
           stripe_session_id: stripeSessionId,
           stripe_payment_id: typeof payload.stripe_payment_id === "string"
             ? payload.stripe_payment_id

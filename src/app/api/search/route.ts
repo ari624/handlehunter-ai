@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { normalizeToHandle, generateCandidates, generateMockSocialResults, checkDomainAvailability } from '@/lib/search';
 import { ResultItem } from '@/lib/types';
-import { supabase } from '@/lib/supabase';
+import { callHandleHunterDb } from '@/lib/handlehunter-db';
 
 export async function POST(req: NextRequest) {
   try {
@@ -66,19 +66,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Save to Supabase
-    const { data: searchRecord, error: dbError } = await supabase
-      .from('searches')
-      .insert({
+    let searchRecord: { id: string };
+    try {
+      searchRecord = await callHandleHunterDb<{ id: string }>('create_search', {
         brand_name: brandName,
         domains_checked: selectedTlds,
         socials_checked: selectedSocials,
         results,
-      })
-      .select('id')
-      .single();
-
-    if (dbError) {
-      console.error('Supabase insert error:', dbError);
+      });
+    } catch (dbError) {
+      console.error('Database gateway error:', dbError);
       // Return results anyway with a temp ID
       return NextResponse.json({
         searchId: `temp-${Date.now()}`,

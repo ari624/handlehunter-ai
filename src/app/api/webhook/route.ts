@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { supabase } from '@/lib/supabase';
+import { callHandleHunterDb } from '@/lib/handlehunter-db';
 
 function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -46,15 +46,11 @@ export async function POST(req: NextRequest) {
       webhook_sent: false,
     };
 
-    // Insert order into Supabase
-    const { data: order, error: dbError } = await supabase
-      .from('orders')
-      .insert(orderData)
-      .select('id')
-      .single();
-
-    if (dbError) {
-      console.error('Order insert error:', dbError);
+    let order: { id: string } | null = null;
+    try {
+      order = await callHandleHunterDb<{ id: string }>('create_order', orderData);
+    } catch (dbError) {
+      console.error('Order database gateway error:', dbError);
     }
 
     // Fire Make.com webhook
@@ -82,10 +78,7 @@ export async function POST(req: NextRequest) {
         });
 
         // Update webhook_sent status
-        await supabase
-          .from('orders')
-          .update({ webhook_sent: true, webhook_sent_at: new Date().toISOString() })
-          .eq('id', order.id);
+        await callHandleHunterDb('mark_webhook_sent', { order_id: order.id });
       } catch (webhookErr) {
         console.error('Make.com webhook error:', webhookErr);
       }

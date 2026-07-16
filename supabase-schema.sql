@@ -32,25 +32,23 @@ CREATE TABLE IF NOT EXISTS orders (
   updated_at          timestamptz DEFAULT now()
 );
 
+-- Service-only application configuration. Seed secrets outside source control.
+CREATE TABLE IF NOT EXISTS app_config (
+  key         text PRIMARY KEY,
+  value       text NOT NULL,
+  updated_at  timestamptz NOT NULL DEFAULT now()
+);
+
 -- Enable Row Level Security
 ALTER TABLE searches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE app_config ENABLE ROW LEVEL SECURITY;
 
--- Allow anonymous inserts (no auth for v1)
-CREATE POLICY "Allow anonymous insert searches" ON searches
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Allow anonymous read searches" ON searches
-  FOR SELECT USING (true);
-
-CREATE POLICY "Allow anonymous insert orders" ON orders
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Allow anonymous read orders" ON orders
-  FOR SELECT USING (true);
-
-CREATE POLICY "Allow anonymous update orders" ON orders
-  FOR UPDATE USING (true);
+-- Browser keys cannot read or write application data. Server routes use the
+-- authenticated handlehunter-db Edge Function, which runs as service_role.
+REVOKE ALL PRIVILEGES ON TABLE searches, orders, app_config
+  FROM PUBLIC, anon, authenticated;
+GRANT ALL PRIVILEGES ON TABLE searches, orders, app_config TO service_role;
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_searches_created_at ON searches(created_at DESC);
