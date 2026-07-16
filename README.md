@@ -34,3 +34,15 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Database security
+
+Browser/public Supabase keys must never write directly to `searches` or
+`orders`. Server routes call the `handlehunter-db` Edge Function with the
+server-only `HANDLEHUNTER_INTERNAL_KEY`; the function validates that key
+against the service-only `app_config` table before performing a narrow,
+allowlisted database action.
+
+Deploy `handlehunter-db` with JWT verification off because it implements this
+custom server-to-server authentication. Never expose the internal key through a
+`NEXT_PUBLIC_` variable.
